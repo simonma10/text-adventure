@@ -1,0 +1,58 @@
+body {
+    background-color: #000000;
+}
+
+.console__container {
+    background-color: #001C00;
+    width: 800px;
+    min-width: 120px;
+    height: 600px;
+    min-height: 100px;
+    margin: auto;
+    border: 8px solid gray;
+
+}
+
+.console__text-block {
+    background-color: #001C00;
+    padding-left: 6px;
+    padding-top: 6px;
+}
+
+.console__text {
+    font-family: 'Typewriter', fixed;
+    font-size: 11pt;
+    color: #007200;
+}
+
+.console__text-input {
+    background-color: #001C00;
+    font-family: 'Typewriter';
+    font-size: 12pt;
+    color: #007200;
+    border: 0px solid #001C00;
+    outline: none;
+}
+
+.console__text-input--reverse {
+    background: #007200;
+}
+
+.console__line {
+    border: 1px solid #007200;
+}
+
+.console__text-output-container {
+
+    /* width: 580px; */
+    /* min-height: 300px; */
+    height: 480px;
+    resize: none;
+
+    padding: 6px;
+    background-color: #001C00;
+    color: #007200;
+    border: 0px solid #001C00;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
