@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { inputSubmit, inputParse } from '../actions';
+import { inputSubmit, inputParse, processCommand } from '../actions';
 
 import TextInput from './text-input';
 import Header from './header';
 import TextOutput from './text-output';
+import Controller from '../controller';
 
 /**
  * Console = App container object.  Only this component needs to be wired to redux state.
@@ -17,6 +18,7 @@ class Console extends Component{
     constructor(props){
         super(props);
         this.handleInputSubmit = this.handleInputSubmit.bind(this);
+        //this.controller = new Controller();
         this.state = {
         };
     }
@@ -24,6 +26,7 @@ class Console extends Component{
     handleInputSubmit(textInput){
         this.props.handleInputSubmit(textInput);
         this.props.handleInputParse(textInput);
+        this.props.processCommand();
     }
 
 
@@ -46,25 +49,24 @@ class Console extends Component{
           </div>
         );
     }
-
 }
-
 
 function mapStateToProps(state){
     // whenever application state changes:
     //  - component will auto re-render
     //  - the object in the state function will be assigned as props to the component
     return {
-        headerText: state.inputOutput.headerText,
+        headerText: state.inputOutput.config['header'],
         outputText: state.inputOutput.outputText,
-        promptText: state.inputOutput.promptText
+        promptText: state.inputOutput.config['prompt'],
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
         handleInputSubmit:inputSubmit,
-        handleInputParse:inputParse
+        handleInputParse:inputParse,
+        processCommand:processCommand
     }, dispatch)
 
 }

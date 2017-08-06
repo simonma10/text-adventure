@@ -10,11 +10,12 @@ class TextOutput extends Component{
         this.scrollToEnd();
     }
 
-
-
     renderOutput(textOutputItem, index){
         return(
-            <p key={index}>
+            <p
+                key={index}
+                className="console__p"
+            >
                 {textOutputItem}
             </p>
         );
@@ -45,12 +46,3 @@ class TextOutput extends Component{
 
 export default TextOutput;
 
-/*
- <textarea
- className="console__textarea console__text"
- value={this.props.outputText}
- onChange={this.handleChange}
- >
- </textarea>
-
- */

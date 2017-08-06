@@ -19,6 +19,10 @@ body {
     padding-top: 6px;
 }
 
+.console__p {
+    line-height: 80%;
+}
+
 .console__text {
     font-family: 'Typewriter', fixed;
     font-size: 11pt;

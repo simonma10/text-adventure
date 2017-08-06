@@ -1,0 +1,178 @@
+{
+"config":{
+	"myScore":0,
+	"myLoc":1,
+	"msgWelcome":"Welcome to adv.js",
+	"engineVersion":0.4,
+	"engineName":"adventure.js",
+	"showLoc":"true",
+	"locLimbo":666,
+	"locInv":0,
+	"prompt":"> ",
+	"header":"[Header Text from globals.json]"
+},
+
+"messages":{
+	"mScore":"Your score is ",
+	"mInv":"You are carrying: ",
+	"mInvEmpty":"nothing.",
+	"mVisibleItems": "You can see: ",
+	"mVisibleItemsEmpty": "nothing special.",
+	"mExits": "Exits lead ",
+	"mNowhere":"nowhere",
+	"mNoExit":"You can't go that way.",
+	"mGo": "You go ",
+	"mNoCanDo": "You can't do that.",
+	"mGet": "You take the ",
+	"mDrop": "You drop the ",
+	"mQuit": "Leaving so soon?",
+	"mLook": "You look around.",
+	"mHelp":"Yes, you certainly need it.",
+	"mConfused": "I don't understand what you mean."
+
+},
+
+
+"verbs": {
+	"n":"go",
+	"s":"go",
+	"w":"go",
+	"e":"go",
+	"ne":"go",
+	"nw":"go",
+	"sw":"go",
+	"se":"go",
+	"north":"go",
+	"south":"go",
+	"west":"go",
+	"east":"go",
+	"northwest":"go",
+	"northeast":"go",
+	"southwest":"go",
+	"southeast":"go",
+	"up":"go",
+	"u":"go",
+	"down":"go",
+	"d":"go",
+	"in":"go",
+	"out":"go",
+	"go":"go",
+
+	"take":"get",
+	"get":"get",
+	"drop":"drop",
+	"l":"look",
+	"look":"look",
+	"examine":"examine",
+	"inspect":"inspect",
+	"i":"inv",
+	"inv":"inv",
+	"inventory":"inv",
+	"carrying":"inv",
+
+	"score":"score",
+	"quit":"quit",
+	"exit":"quit",
+	"bye":"quit",
+	"help":"help",
+	"hint":"help",
+	"save":"save",
+	"load":"load"	
+},
+
+"nouns":{
+	"n":"north",
+	"north":"north",
+	"s":"south",
+	"south":"south",
+	"w":"west",
+	"west":"west",
+	"e":"east",
+	"east":"east",
+	"u":"up",
+	"up":"up",
+	"d":"down",
+	"down":"down",
+	"in":"in",
+	"out":"out",
+	"nw":"northwest",
+	"northwest":"northwest",
+	"ne":"northeast",
+	"northeast":"northeast",
+	"sw":"southwest",
+	"southwest":"southwest",
+	"se":"southeast",
+	"southeast":"southeast",
+
+	"treasure":"treasure",
+	"vast":"treasure",
+	"quantities":"treasure",
+	"herring":"herring",
+	"red":"herring",
+	"fish":"herring"
+},
+
+"locations":[
+	{
+	"id":666,
+	"visited": "false",
+	"name":"limbo",
+	"description":"limbo, a place for things that no longer exist, or don't exist yet.  Never send the player to limbo!",
+	"exits":{}
+	},
+	{
+	"id":0,
+	"visited": "false",
+	"name":"inventory",
+	"description":"inventory, a place for items the player is carrying.  Never send the player to inventory!",
+	"exits":{}
+	},
+	{
+	"id":1,
+	"visited": "false",
+	"name":"the first location",
+	"description":"the first test location, an interesting location",
+	"exits":{
+		"east":2,
+		"west":3
+	}
+	},
+	{
+		"id":2,
+		"visited": "false",
+		"name":"the second location",
+		"description":"the second test location, which is interesting only in its testing of non-euclidean geometry.",
+		"exits":{
+			"west":1,
+			"north":3
+		}
+	},
+	{
+		"id":3,
+		"visited": "false",
+		"name":"the third location",
+		"description":"the third test location, notable only for the fact that its description has been paddded with as much text as possible, if only to test the word-wrapping capabilities of the console component :)",
+		"exits":{
+			"east":1
+		}
+	}
+
+],
+"items":[
+	{
+		"id":1,
+		"location":1,
+		"name": "herring",
+		"shortdescription":"a red herring",
+		"description":"a small red fish.  It smells. It really smells."
+	},
+	{
+		"id":2,
+		"location":3,
+		"name":"treasure",
+		"shortdescription":"vast quantities of treasure",
+		"description":"vast quantities of treasure - what more do you need to know?"
+	}
+]
+
+}

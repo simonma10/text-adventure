@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { inputSubmit } from '../actions';
 
 class TextInput extends Component{
     constructor(props){
