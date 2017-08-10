@@ -3,6 +3,12 @@ body {
 }
 
 .console__container {
+    /*background:
+            url("/images/lines3.png")
+            #001C00
+            repeat;
+*/
+
     background-color: #001C00;
     width: 800px;
     min-width: 120px;
@@ -14,24 +20,32 @@ body {
 }
 
 .console__text-block {
-    background-color: #001C00;
+
+/*    background-color: #001C00;*/
     padding-left: 6px;
     padding-top: 6px;
 }
 
 .console__p {
-    line-height: 80%;
+    line-height: 110%;
 }
 
 .console__text {
-    font-family: 'Typewriter', fixed;
-    font-size: 11pt;
+    font-family: 'Inconsolata', monospace;
+/*    font-family: 'Typewriter', fixed;*/
+    font-size: 12pt;
+    font-style: normal;
     color: #007200;
 }
 
 .console__text-input {
     background-color: #001C00;
-    font-family: 'Typewriter';
+   /* background:
+            url("/images/lines3.png")
+            #001C00
+            repeat;*/
+    font-family: 'Inconsolata', monospace;
+    /*font-family: 'Typewriter';*/
     font-size: 12pt;
     color: #007200;
     border: 0px solid #001C00;
@@ -52,9 +66,8 @@ body {
     /* min-height: 300px; */
     height: 480px;
     resize: none;
-
     padding: 6px;
-    background-color: #001C00;
+    /*background-color: #001C00;*/
     color: #007200;
     border: 0px solid #001C00;
     overflow-x: hidden;

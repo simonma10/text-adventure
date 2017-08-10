@@ -25,6 +25,8 @@
 	"mNoCanDo": "You can't do that.",
 	"mGet": "You take the ",
 	"mDrop": "You drop the ",
+	"mGotAlready": "You already have it.",
+	"mExamineNotHere": "A wise old man once said: 'You cannot examine what you cannot see'.",
 	"mQuit": "Leaving so soon?",
 	"mLook": "You look around.",
 	"mHelp":"Yes, you certainly need it.",
@@ -77,7 +79,10 @@
 	"help":"help",
 	"hint":"help",
 	"save":"save",
-	"load":"load"	
+	"load":"load",
+
+	"use":"use",
+	"shine":"use"
 },
 
 "nouns":{
@@ -109,7 +114,8 @@
 	"quantities":"treasure",
 	"herring":"herring",
 	"red":"herring",
-	"fish":"herring"
+	"fish":"herring",
+	"torch":"torch"
 },
 
 "locations":[
@@ -140,8 +146,8 @@
 	{
 		"id":2,
 		"visited": "false",
-		"name":"the second location",
-		"description":"the second test location, which is interesting only in its testing of non-euclidean geometry.",
+		"name":"the dark and shady location",
+		"description":"A dark and shady place, which is interesting perhaps only in its testing of non-euclidean geometry.",
 		"exits":{
 			"west":1,
 			"north":3
@@ -164,15 +170,108 @@
 		"location":1,
 		"name": "herring",
 		"shortdescription":"a red herring",
-		"description":"a small red fish.  It smells. It really smells."
+		"description":"A small red fish.  It smells. It really smells."
 	},
 	{
 		"id":2,
-		"location":3,
+		"location":666,
 		"name":"treasure",
 		"shortdescription":"vast quantities of treasure",
-		"description":"vast quantities of treasure - what more do you need to know?"
+		"description":"Vast quantities of treasure - what more do you need to know?"
+	},
+	{
+		"id":3,
+		"location":3,
+		"name":"torch",
+		"shortdescription":"a really handy torch",
+		"description":"What a bright idea!  With this torch, you can really shine."
 	}
-]
+],
+	"conditions":[
+		{
+			"id":1,
+			"tests":{
+				"verb":"help",
+				"atLoc":1
+			},
+			"actions":{
+				"msg":"You can't possibly need help already?!"
+			}
+		},
+		{
+			"id":2,
+			"tests":{
+				"verb":"help",
+				"atLoc":2,
+				"findItems":{
+					"treasure":666
+				}
+			},
+			"actions":{
+				"msg":"It's really dark... with a bit more light you might be able to look around."
+			}
+		},
+		{
+			"id":3,
+			"tests":{
+				"noun":"torch",
+				"atLoc":2,
+				"findItems":{
+					"torch":0,
+					"treasure":666
+				}
+			},
+			"actions":{
+				"msg":"You scan the room with the torch, and its light reveals vast amounts of shining treasure!",
+				"moveItems": {
+					"treasure":2
+				}
+			}
+		},
+		{
+			"id":4,
+			"tests":{
+				"verb":"use",
+				"noun":"torch",
+				"findItems":{
+					"torch":0,
+					"treasure":0
+				}
+			},
+			"actions":{
+				"msg":"You make an awesome shadow puppet show.  If only there were other people around to see it."
+			}
+		},
+		{
+			"id":5,
+			"tests":{
+				"verb":"use",
+				"noun":"torch",
+				"findItems":{
+					"torch":0,
+					"treasure":666
+				}
+			},
+			"actions":{
+				"msg":"You experience a moment of illumination."
+			}
+		},
+		{
+			"id":6,
+			"tests":{
+				"verb":"use",
+				"noun":"torch",
+				"atLoc":2,
+				"findItems":{
+					"torch":0,
+					"treasure":2
+				}
+			},
+			"actions":{
+				"msg":"Maybe you should look around to see what the torch has already revealed..."
+			}
+		}
+
+	]
 
 }

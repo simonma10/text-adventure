@@ -15,6 +15,7 @@ import Controller from '../controller';
 
 class Console extends Component{
     //TODO: add horizontal line monitor fx
+    //TODO: up and down arrows scroll the test output area
     constructor(props){
         super(props);
         this.handleInputSubmit = this.handleInputSubmit.bind(this);

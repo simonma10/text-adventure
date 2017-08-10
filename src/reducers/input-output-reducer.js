@@ -42,14 +42,14 @@ export default function inputOutputReducer(
         currentExits = currentLocation.exits;
         // console.log(currentLocation, currentExits);
     }
-    let visibleItems;
+   /* let visibleItems;
     visibleItems = _.filter(state.items, function(item){
         return item.location === state.config['myLoc'];
     });
     let inventoryItems = _.filter(state.items, function(item){
         return item.location === state.config['locInv'];
     });
-
+*/
 
     /**
      * Reducer main switch
@@ -77,25 +77,12 @@ export default function inputOutputReducer(
                         newParsedVerbs.push(state.verbs[verbKey]);
                     }
                 }
-                /*for (let j = 0; j < state.verbs.length; j++) {
-                    if(newParsedText[i] === state.verbs[j].key){
-                        //console.log('found verb', newParsedText[i], 'mapped to', state.verbs[j].v);
-                        newParsedVerbs.push(state.verbs[j].value);
-                    }
-                }*/
 
                 for (let nounKey in state.nouns){
                     if(nounKey === newParsedText[i]){
                         newParsedNouns.push(state.nouns[nounKey]);
                     }
                 }
-
-                /*for (let k = 0; k < state.nouns.length; k++) {
-                    if(newParsedText[i] === state.nouns[k].k){
-                        //console.log('found noun', newParsedText[i], 'mapped to', state.nouns[k].v);
-                        newParsedNouns.push(state.nouns[k].v);
-                    }
-                }*/
             }
 
             console.log('reducer::INPUT_PARSE = ', newParsedVerbs, newParsedNouns);
@@ -108,8 +95,99 @@ export default function inputOutputReducer(
 
         case types.PROCESS_COMMAND:
 
+            // Process all test conditions first
+            for (let i = 0; i < state.conditions.length; i++){
+                let result = '';
+                let c = state.conditions[i];
+                for (let t in c.tests){
+
+                    switch (t){
+                        case "verb":
+                            if (_.find(state.parsedVerbs, function (verb) {
+                                    return verb === c.tests[t];
+                                })) {
+                                result += '0';
+                            } else {
+                                result += 'x';
+                            }
+                            break;
+
+                        case "noun":
+                            if (_.find(state.parsedNouns, function(noun){
+                                    return noun === c.tests[t];
+                                })) {
+                                result += '0';
+                            } else {
+                                result += 'x';
+                            }
+                            break;
+
+                        case "atLoc":
+                            if (c.tests[t] === state.config['myLoc']){
+                                result += '0';
+                            } else {
+                                result += 'x';
+                            }
+                            break;
+
+                        case "findItems":
+                            for (let itemName in c.tests[t]){
+                                // console.log(itemName, c.tests[t][itemName]);
+                                if(_.find(state.items, function(item){
+                                    return (item.name === itemName && item.location === c.tests[t][itemName]);
+                                    })) {
+                                    result += '0';
+                                } else {
+                                    result += 'x';
+                                }
+                            }
+                            break;
+
+                        default:
+                            result += 'x';
+                            break;
+                    }
+
+                }
+
+                // console.log(i, result);
+                // If all tests passed for a particular condition, process the corresponding actions
+                if (result.indexOf('x') === -1){
+                    let msg;
+                    let newItems = _.clone(state.items);
+
+                    for (let action in c.actions){
+                        switch (action){
+                            case "msg":
+                                msg = c.actions[action];
+                                break;
+                            case "moveItems":
+                                for (let itemName in c.actions[action]){
+                                    for (let i = 0; i < newItems.length; i++){
+                                        if(newItems[i].name === itemName){
+                                            newItems[i].location = c.actions[action][itemName];
+                                        }
+                                    }
+                                }
+                                break;
+
+                            default:
+                                msg = "Problem with conditional logic (missing break statement?)";
+                                break;
+                        }
+                    }
+
+                    return Object.assign({}, state, {
+                        outputText: (msg ? state.outputText.concat(msg) : state.outputText),
+                        items: newItems
+
+                    });
+                }
+
+            }
+
+            // If no special conditions met, apply standardised logic, according to verb
             for (let i = 0; i < state.parsedVerbs.length; i++){
-                // TODO: process conditions here, before handling general options
                 switch (state.parsedVerbs[i]){
                     case vb.GO:
                         for (let key in currentExits){
@@ -148,16 +226,58 @@ export default function inputOutputReducer(
                                 outputText: state.outputText.concat(itemMsg),
                             });
                         } else {
-                            // TODO: if item already in inventory, msg="you already have it"
-                            return {...state, outputText:state.outputText.concat(state.messages['mNoCanDo'])};
+                            let inventoryItems = _.filter(state.items, function(item){
+                                return item.location === state.config['locInv'];
+                            });
+                            let getItem = _.find(inventoryItems, function(item){
+                                return item.name === state.parsedNouns[i];
+                            });
+                            if (getItem){
+                                return {...state, outputText:state.outputText.concat(state.messages['mGotAlready'])};
+                            } else {
+                                return {...state, outputText:state.outputText.concat(state.messages['mNoCanDo'])};
+                            }
                         }
-
                         break;
                     case vb.DROP:
-                        //TODO: Drop
+                        let inventoryItems = _.filter(state.items, function(item){
+                            return item.location === state.config['locInv'];
+                        });
+                        let dropItem = _.find(inventoryItems, function(item){
+                            return item.name === state.parsedNouns[i];
+                        });
+
+                        if (dropItem){
+                            let newItems = _.clone(state.items);
+                            for (let i = 0; i < newItems.length; i++){
+                                if(newItems[i].id === dropItem.id){
+                                    newItems[i].location = state.config['myLoc'];
+                                }
+                            }
+                            let itemMsg = state.messages['mDrop'] + dropItem.name + '.';
+                            return Object.assign({}, state, {
+                                items: newItems,
+                                outputText: state.outputText.concat(itemMsg),
+                            });
+                        } else {
+                            return {...state, outputText:state.outputText.concat(state.messages['mNoCanDo'])};
+                        }
                         break;
                     case vb.EXAMINE:
-                        // TODO: Examine
+                        let examinableItems = _.filter(state.items, function(item){
+                            return (
+                                item.location === state.config['locInv'] ||
+                                item.location === state.config['myLoc']);
+                        });
+                        let examineItem = _.find(examinableItems, function(item){
+                            return item.name === state.parsedNouns[i];
+                        });
+                        if(examineItem){
+                            return {...state, outputText:state.outputText.concat(examineItem.description)};
+                        } else {
+                            return {...state, outputText:state.outputText.concat(state.messages['mExamineNotHere'])};
+                        }
+
                         break;
                     case vb.HELP:
                         return {...state, outputText:state.outputText.concat(state.messages['mHelp'])};
@@ -289,7 +409,6 @@ export default function inputOutputReducer(
                 itemDescription += state.messages['mVisibleItemsEmpty'];
             }
             locDescription.push(itemDescription);
-
 
             return Object.assign({}, state, {
                 outputText: state.outputText.concat(locDescription),
