@@ -6,10 +6,10 @@ import thunk from 'redux-thunk';
 
 import Console from './components/console';
 import reducers from './reducers';
-import { loadData, getWelcomeMessage, getLocation, setConfig } from './actions';
+import { loadData, getWelcomeMessage, getLocation} from './actions';
 
 // create redux store using thunk middleware
-const store = createStore(
+let store = createStore(
     reducers,
     compose(
         applyMiddleware(thunk),
@@ -18,27 +18,40 @@ const store = createStore(
 );
 
 // set up calllback
-const unsubscribe = store.subscribe(handleChange);
+let unsubscribe = store.subscribe(handleChange);
 
 // load global data file into store
 store.dispatch(loadData('../data/globals.json'));
 
-ReactDOM.render(
-    <Provider store={store}>
-        <Console/>
-    </Provider>
-    , document.querySelector('.container')
 
-);
-
+// store change handler
 function handleChange(){
     let tempState = store.getState();
     if (tempState.inputOutput.status === 'loaded'){
+        renderConsole(store);
         store.dispatch(getWelcomeMessage());
     } else if (tempState.inputOutput.config['showLoc'] === "true"){
         store.dispatch(getLocation());
     }
 }
+
+
+
+// render UI
+function renderConsole(){
+    ReactDOM.render(
+        <Provider store={store}>
+            <Console/>
+        </Provider>
+        , document.querySelector('.container')
+    );
+}
+
+
+
+
+
+
 
 
 /*

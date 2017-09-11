@@ -8,6 +8,8 @@ import TextInput from './text-input';
 import Header from './header';
 import TextOutput from './text-output';
 import Controller from '../controller';
+import Parser from '../engine/parser';
+
 
 /**
  * Console = App container object.  Only this component needs to be wired to redux state.
@@ -20,12 +22,15 @@ class Console extends Component{
         super(props);
         this.handleInputSubmit = this.handleInputSubmit.bind(this);
         //this.controller = new Controller();
+        this.parser = new Parser(this.props.verbs, this.props.nouns);
+
         this.state = {
         };
     }
 
     handleInputSubmit(textInput){
         this.props.handleInputSubmit(textInput);
+        //this.parser.parseInputText(textInput);
         this.props.handleInputParse(textInput);
         this.props.processCommand();
     }
@@ -60,6 +65,8 @@ function mapStateToProps(state){
         headerText: state.inputOutput.config['header'],
         outputText: state.inputOutput.outputText,
         promptText: state.inputOutput.config['prompt'],
+        verbs: state.inputOutput.verbs,
+        nouns: state.inputOutput.nouns
     }
 }
 

@@ -22,8 +22,9 @@ export function processCommand () {
 }
 
 export function loadData (url) {
+
     return function(dispatch) {
-        return Controller.loadData(url).then(data => {
+        return Controller.loadDataFile(url).then(data => {
             dispatch(receiveData(data));
         }).catch(error => {
             throw(error);

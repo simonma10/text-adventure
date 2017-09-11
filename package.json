@@ -5,34 +5,42 @@
   "main": "index.js",
   "repository": "",
   "scripts": {
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "xdev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "dev": "webpack-dev-server --open",
+    "build": "webpack",
+    "test": "jest",
+    "test no-cache": "jest --no-cache",
     "test:watch": "npm run test -- --watch"
   },
-  "author": "",
+  "author": "Simon Martin",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.25.0",
+    "babel-jest": "^21.0.2",
     "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "chai": "^4.1.0",
-    "chai-jquery": "^2.0.0",
+    "jest": "^21.0.2",
     "jquery": "^3.2.1",
     "jsdom": "^11.1.0",
-    "mocha": "^3.4.2",
     "react-addons-test-utils": "^15.6.0",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
     "babel-preset-stage-1": "^6.24.1",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.2",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "webpack-preset": "^0.2.0",
+    "webpack-preset-babel": "^0.2.0",
+    "webpack-preset-babel-stage-1": "^0.2.0"
   }
 }

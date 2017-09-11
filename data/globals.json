@@ -9,7 +9,8 @@
 	"locLimbo":666,
 	"locInv":0,
 	"prompt":"> ",
-	"header":"[Header Text from globals.json]"
+	"header":"[Header Text from globals.json]",
+	"usedTeleporter":"false"
 },
 
 "messages":{
@@ -30,7 +31,11 @@
 	"mQuit": "Leaving so soon?",
 	"mLook": "You look around.",
 	"mHelp":"Yes, you certainly need it.",
-	"mConfused": "I don't understand what you mean."
+	"mConfused": "I don't understand what you mean.",
+	"mSaved": "Game Saved.",
+	"mNotSaved": "Unable to save game.",
+	"mLoaded": "Loaded game data.",
+	"mNotLoaded": "Unable to load game data."
 
 },
 
@@ -115,7 +120,9 @@
 	"herring":"herring",
 	"red":"herring",
 	"fish":"herring",
-	"torch":"torch"
+	"torch":"torch",
+	"teleporter":"teleporter",
+	"pad":"teleporter"
 },
 
 "locations":[
@@ -161,6 +168,15 @@
 		"exits":{
 			"east":1
 		}
+	},
+	{
+		"id":4,
+		"visited": "false",
+		"name":"a hyperdimensional wardrobe",
+		"description":"You seem to be in a wardrobe, with coat hangers clattering, sending lint flying upwards from mouldering and scratchy items.",
+		"exits":{
+			"out":1
+		}
 	}
 
 ],
@@ -168,6 +184,7 @@
 	{
 		"id":1,
 		"location":1,
+		"score":-10,
 		"name": "herring",
 		"shortdescription":"a red herring",
 		"description":"A small red fish.  It smells. It really smells."
@@ -175,6 +192,7 @@
 	{
 		"id":2,
 		"location":666,
+		"score":20,
 		"name":"treasure",
 		"shortdescription":"vast quantities of treasure",
 		"description":"Vast quantities of treasure - what more do you need to know?"
@@ -182,10 +200,20 @@
 	{
 		"id":3,
 		"location":3,
+		"score":10,
 		"name":"torch",
 		"shortdescription":"a really handy torch",
 		"description":"What a bright idea!  With this torch, you can really shine."
+	},
+	{
+		"id":4,
+		"location":1,
+		"score":10,
+		"name":"teleporter",
+		"shortdescription":"a teleporter pad",
+		"description":"It looks just like a teleporter pad.  Who knows where it might take you."
 	}
+
 ],
 	"conditions":[
 		{
@@ -225,7 +253,8 @@
 				"msg":"You scan the room with the torch, and its light reveals vast amounts of shining treasure!",
 				"moveItems": {
 					"treasure":2
-				}
+				},
+				"updateScore":50
 			}
 		},
 		{
@@ -269,6 +298,58 @@
 			},
 			"actions":{
 				"msg":"Maybe you should look around to see what the torch has already revealed..."
+			}
+		},
+		{
+			"id":7,
+			"tests":{
+				"verb":"use",
+				"noun":"teleporter",
+				"atLoc":1,
+				"getConfig":{
+					"key":"usedTeleporter",
+					"value":"false"
+				}
+			},
+			"actions":{
+				"setLocation":4,
+				"msg":"The world suddenly turns very... wavy.  You get the impression you have been... translated.",
+				"updateScore":20,
+				"updateConfig":{
+					"key":"usedTeleporter",
+					"value":"true"
+				}
+			}
+		},
+		{
+			"id":8,
+			"tests":{
+				"verb":"use",
+				"noun":"teleporter",
+				"atLoc":1,
+				"getConfig":{
+					"key":"usedTeleporter",
+					"value":"true"
+				}
+			},
+			"actions":{
+				"setLocation":4,
+				"msg":"Ah yes, teleportation.  You're really an old hand at this now.",
+				"updateConfig":{
+					"key":"usedTeleporter",
+					"value":"true"
+				}
+			}
+		},
+		{
+			"id":9,
+			"tests":{
+				"verb":"get",
+				"noun":"teleporter",
+				"atLoc":1
+			},
+			"actions":{
+				"msg":"It looks rather heavy, and is probably bolted to the floor."
 			}
 		}
 

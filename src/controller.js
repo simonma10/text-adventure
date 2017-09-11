@@ -1,5 +1,5 @@
-import { bindActionCreators } from 'redux';
 
+import 'isomorphic-fetch';
 
 class Controller {
     constructor(){
@@ -10,11 +10,11 @@ class Controller {
         console.log('controller::processCommand', parsedVerbs, parsedNouns);
     }
 
-    static loadData(url){
+    static loadDataFile(url){
         return fetch(url).then(response => {
             return response.json();
         }).catch(error => {
-            return error;
+            throw new Error(error);
         });
     }
 
