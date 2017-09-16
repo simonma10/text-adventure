@@ -87,7 +87,11 @@
 	"load":"load",
 
 	"use":"use",
-	"shine":"use"
+	"shine":"use",
+
+	"sniff":"smell",
+	"smell":"smell",
+	"eat":"eat"
 },
 
 "nouns":{

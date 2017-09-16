@@ -2,12 +2,14 @@ import _ from 'lodash';
 
 
 export function testConditions(state){
-    //console.log('testConditions', state.conditions.length);
-    // Process all test conditions first
+    //============================================================
+    // Process all test conditions.  Test results are captured in
+    // a result string.  All tests are cumulative (test 1 AND
+    // test 2)
+    //============================================================
     for (let i = 0; i < state.conditions.length; i++){
         let result = '';
         let c = state.conditions[i];
-        //console.log(i, state.conditions[i]);
         for (let t in c.tests){
 
             switch (t){
@@ -34,13 +36,16 @@ export function testConditions(state){
 
         }
 
-        //console.log(i, result);
-
-        // If all tests passed for a particular condition, process the corresponding actions
+        //============================================================
+        // If all tests passed for a particular condition, process
+        // the corresponding actions
+        //============================================================
         if (result.indexOf('x') === -1){
             let msg;
             let newItems = _.clone(state.items);
             let newConfig = _.clone(state.config);
+            let newLocations = _.clone(state.locations);
+
 
             for (let action in c.actions){
                 switch (action){
@@ -66,6 +71,11 @@ export function testConditions(state){
                     case "updateScore":
                         newConfig['myScore'] += c.actions[action];
                         break;
+                    /*case "updateItem":
+                        newItems = updateObjectInArray(newItems, c.actions[action]);
+                        break;
+*/
+
 
                     // TODO: playerDead
                     // TODO: updateLocation (add exits, etc)
@@ -84,7 +94,6 @@ export function testConditions(state){
 
             });
         }
-
     }
     return false;
 
@@ -120,16 +129,14 @@ function matchItems(allItems, testItems){
         }
     }
 }
+/*
 
-
-
-/*for (let itemName in c.tests[t]){
- // console.log(itemName, c.tests[t][itemName]);
- if(_.find(state.items, function(item){
- return (item.name === itemName && item.location === c.tests[t][itemName]);
- })) {
- result += '0';
- } else {
- result += 'x';
- }
- }*/
+function updateObjectInArray(array, object){
+    for (let i in array){
+        if (i['id'] === object['id']){
+            for (let kv in object){
+                i[kv] = object[kv][];
+            }
+        }
+    }
+}*/
