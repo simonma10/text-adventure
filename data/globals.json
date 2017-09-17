@@ -39,7 +39,6 @@
 
 },
 
-
 "verbs": {
 	"n":"go",
 	"s":"go",
@@ -91,7 +90,8 @@
 
 	"sniff":"smell",
 	"smell":"smell",
-	"eat":"eat"
+	"eat":"eat",
+	"strike":"strike"
 },
 
 "nouns":{
@@ -126,7 +126,8 @@
 	"fish":"herring",
 	"torch":"torch",
 	"teleporter":"teleporter",
-	"pad":"teleporter"
+	"pad":"teleporter",
+	"match":"match"
 },
 
 "locations":[
@@ -143,6 +144,13 @@
 	"name":"inventory",
 	"description":"inventory, a place for items the player is carrying.  Never send the player to inventory!",
 	"exits":{}
+	},
+	{
+		"id":999,
+		"visited": "false",
+		"name":"I'm afraid you appear to be dead.",
+		"description":"Well, this is rather awkward.  I'm afraid you appear to be dead.  I'm sure it was a heroid, dramatic, awe-inspiring death, but sadly, dead is dead.  Type 'quit' to start again, or perhaps you should do something more productive instead?",
+		"exits":{}
 	},
 	{
 	"id":1,
@@ -181,9 +189,19 @@
 		"exits":{
 			"out":1
 		}
+	},
+	{
+		"id":5,
+		"visited": "false",
+		"name":"a secret location",
+		"description":"You are in a secret location.   Shhhh!  Dont't tell anyone about this, OK?",
+		"exits":{
+			"west":4
+		}
 	}
 
 ],
+
 "items":[
 	{
 		"id":1,
@@ -216,147 +234,199 @@
 		"name":"teleporter",
 		"shortdescription":"a teleporter pad",
 		"description":"It looks just like a teleporter pad.  Who knows where it might take you."
+	},
+	{
+		"id":5,
+		"location":4,
+		"score":10,
+		"name":"match",
+		"shortdescription":"a match",
+		"description":"A strike anywhere match."
 	}
 
 ],
-	"conditions":[
-		{
-			"id":1,
-			"tests":{
-				"verb":"help",
-				"atLoc":1
-			},
-			"actions":{
-				"msg":"You can't possibly need help already?!"
+
+"conditions":[
+	{
+		"id":1,
+		"tests":{
+			"verb":"help",
+			"atLoc":1
+		},
+		"actions":{
+			"msg":"You can't possibly need help already?!"
+		}
+	},
+	{
+		"id":2,
+		"tests":{
+			"verb":"help",
+			"atLoc":2,
+			"findItems":{
+				"treasure":666
 			}
 		},
-		{
-			"id":2,
-			"tests":{
-				"verb":"help",
-				"atLoc":2,
-				"findItems":{
-					"treasure":666
-				}
-			},
-			"actions":{
-				"msg":"It's really dark... with a bit more light you might be able to look around."
+		"actions":{
+			"msg":"It's really dark... with a bit more light you might be able to look around."
+		}
+	},
+	{
+		"id":3,
+		"tests":{
+			"noun":"torch",
+			"atLoc":2,
+			"findItems":{
+				"torch":0,
+				"treasure":666
 			}
 		},
-		{
-			"id":3,
-			"tests":{
-				"noun":"torch",
-				"atLoc":2,
-				"findItems":{
-					"torch":0,
-					"treasure":666
-				}
+		"actions":{
+			"msg":"You scan the room with the torch, and its light reveals vast amounts of shining treasure!",
+			"moveItems": {
+				"treasure":2
 			},
-			"actions":{
-				"msg":"You scan the room with the torch, and its light reveals vast amounts of shining treasure!",
-				"moveItems": {
-					"treasure":2
-				},
-				"updateScore":50
+			"updateScore":50
+		}
+	},
+	{
+		"id":4,
+		"tests":{
+			"verb":"use",
+			"noun":"torch",
+			"findItems":{
+				"torch":0,
+				"treasure":0
 			}
 		},
-		{
-			"id":4,
-			"tests":{
-				"verb":"use",
-				"noun":"torch",
-				"findItems":{
-					"torch":0,
-					"treasure":0
-				}
-			},
-			"actions":{
-				"msg":"You make an awesome shadow puppet show.  If only there were other people around to see it."
+		"actions":{
+			"msg":"You make an awesome shadow puppet show.  If only there were other people around to see it."
+		}
+	},
+	{
+		"id":5,
+		"tests":{
+			"verb":"use",
+			"noun":"torch",
+			"findItems":{
+				"torch":0,
+				"treasure":666
 			}
 		},
-		{
-			"id":5,
-			"tests":{
-				"verb":"use",
-				"noun":"torch",
-				"findItems":{
-					"torch":0,
-					"treasure":666
-				}
-			},
-			"actions":{
-				"msg":"You experience a moment of illumination."
+		"actions":{
+			"msg":"You experience a moment of illumination."
+		}
+	},
+	{
+		"id":6,
+		"tests":{
+			"verb":"use",
+			"noun":"torch",
+			"atLoc":2,
+			"findItems":{
+				"torch":0,
+				"treasure":2
 			}
 		},
-		{
-			"id":6,
-			"tests":{
-				"verb":"use",
-				"noun":"torch",
-				"atLoc":2,
-				"findItems":{
-					"torch":0,
-					"treasure":2
-				}
-			},
-			"actions":{
-				"msg":"Maybe you should look around to see what the torch has already revealed..."
+		"actions":{
+			"msg":"Maybe you should look around to see what the torch has already revealed..."
+		}
+	},
+	{
+		"id":7,
+		"tests":{
+			"verb":"use",
+			"noun":"teleporter",
+			"atLoc":1,
+			"getConfig":{
+				"key":"usedTeleporter",
+				"value":"false"
 			}
 		},
-		{
-			"id":7,
-			"tests":{
-				"verb":"use",
-				"noun":"teleporter",
-				"atLoc":1,
-				"getConfig":{
-					"key":"usedTeleporter",
-					"value":"false"
-				}
-			},
-			"actions":{
-				"setLocation":4,
-				"msg":"The world suddenly turns very... wavy.  You get the impression you have been... translated.",
-				"updateScore":20,
-				"updateConfig":{
-					"key":"usedTeleporter",
-					"value":"true"
-				}
-			}
-		},
-		{
-			"id":8,
-			"tests":{
-				"verb":"use",
-				"noun":"teleporter",
-				"atLoc":1,
-				"getConfig":{
-					"key":"usedTeleporter",
-					"value":"true"
-				}
-			},
-			"actions":{
-				"setLocation":4,
-				"msg":"Ah yes, teleportation.  You're really an old hand at this now.",
-				"updateConfig":{
-					"key":"usedTeleporter",
-					"value":"true"
-				}
-			}
-		},
-		{
-			"id":9,
-			"tests":{
-				"verb":"get",
-				"noun":"teleporter",
-				"atLoc":1
-			},
-			"actions":{
-				"msg":"It looks rather heavy, and is probably bolted to the floor."
+		"actions":{
+			"setLocation":4,
+			"msg":"The world suddenly turns very... wavy.  You get the impression you have been... translated.",
+			"updateScore":20,
+			"updateConfig":{
+				"key":"usedTeleporter",
+				"value":"true"
 			}
 		}
+	},
+	{
+		"id":8,
+		"tests":{
+			"verb":"use",
+			"noun":"teleporter",
+			"atLoc":1,
+			"getConfig":{
+				"key":"usedTeleporter",
+				"value":"true"
+			}
+		},
+		"actions":{
+			"setLocation":4,
+			"msg":"Ah yes, teleportation.  You're really an old hand at this now.",
+			"updateConfig":{
+				"key":"usedTeleporter",
+				"value":"true"
+			}
+		}
+	},
+	{
+		"id":9,
+		"tests":{
+			"verb":"get",
+			"noun":"teleporter",
+			"atLoc":1
+		},
+		"actions":{
+			"msg":"It looks rather heavy, and is probably bolted to the floor."
+		}
+	},
+	{
+		"id":10,
+		"tests":{
+			"verb":"strike",
+			"noun":"match",
+			"atLoc":4
+		},
+		"actions":{
+			"msg":"The match burns brightly, revealing a secret exit!",
+			"updateItem":{
+				"id": 5,
+				"shortdescription":"a used match",
+				"description":"A used match."},
+			"updateLocation":{
+				"id":4,
+				"exits":{
+					"out":1,
+					"east":5
+				}
 
-	]
+			}
+		}
+	},
+	{
+		"id":11,
+		"tests":{
+			"verb":"help",
+			"atLoc":999
+		},
+		"actions":{
+			"msg":"You're not terribly good at picking up hints, are you?  You are DEAD.  There's not much I can do to help with that."
+		}
+	},
+	{
+		"id":12,
+		"tests":{
+			"verb":"eat",
+			"noun":"herring"
+		},
+		"actions":{
+			"msg":"That probably wasn't a very good idea.",
+			"setLocation":999
+		}
+	}
+]
 
 }

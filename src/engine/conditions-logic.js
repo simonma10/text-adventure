@@ -71,16 +71,15 @@ export function testConditions(state){
                     case "updateScore":
                         newConfig['myScore'] += c.actions[action];
                         break;
-                    /*case "updateItem":
-                        newItems = updateObjectInArray(newItems, c.actions[action]);
+                    case "updateItem":
+                        //newItems = updateObjectInArray(newItems, c.actions[action]);
+                        newItems = updateItem(newItems, c.actions[action]);
                         break;
-*/
+                    case "updateLocation":
+                        newLocations = updateItem(newLocations, c.actions[action]);
+                        break;
 
 
-                    // TODO: playerDead
-                    // TODO: updateLocation (add exits, etc)
-                    // TODO: updateItem (change description, etc)
-                    // TODO: Two-phase interaction
 
                     default:
                         msg = "Problem with conditional logic (missing break statement?)";
@@ -129,6 +128,24 @@ function matchItems(allItems, testItems){
         }
     }
 }
+
+function updateItem(allItems, deltaItem){
+    //find the item in the allItems array
+    let foundItem = _.find(allItems, function(item){
+        return(item.id === deltaItem.id)
+    });
+
+    //update foundItem with the elements in deltaItem
+    _.forEach(deltaItem, function(value, key){
+        foundItem[key] = value;
+    });
+
+    return allItems;
+}
+
+
+
+
 /*
 
 function updateObjectInArray(array, object){
