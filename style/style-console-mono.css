@@ -1,0 +1,71 @@
+body {
+     background-color: rgba(143, 156, 157, 0.98);
+ }
+
+.console__container {
+
+    background-color: #dedede;
+    width: 60%;
+    margin: auto;
+    border: 1px solid #606060;
+    border-radius: 8px;
+
+}
+
+.console__text-block {
+
+    background-color: #dedede;
+    margin: 4px;
+    padding: 6px;
+    border: 1px dashed #606060;
+    border-radius: 8px;
+
+}
+
+.console__p {
+    line-height: 100%;
+}
+
+.console__text {
+    font-family: 'Inconsolata', monospace;
+    /*    font-family: 'Typewriter', fixed;*/
+    font-size: 12pt;
+    font-style: normal;
+    color: #606060;
+}
+
+.console__text-input {
+    background-color: #dedede;
+
+    font-family: 'Inconsolata', monospace;
+    /*font-family: 'Typewriter';*/
+    font-size: 12pt;
+    color: #4a4a4a;
+    outline: none;
+
+    /* Need the border: 0px propety to make input box border disappear */
+    border: 0px solid #606060;
+
+}
+
+.console__text-input--reverse {
+    background: #dedede;
+}
+
+.console__line {
+    border: 0px dashed #606060;
+}
+
+.console__text-output-container {
+
+    /* width: 580px; */
+    /* min-height: 300px; */
+    height: 780px;
+    padding: 6px;
+    resize: none;
+    /*background-color: #001C00;*/
+    color: #606060;
+    border: 0px solid #001C00;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}

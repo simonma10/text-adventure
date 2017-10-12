@@ -21,7 +21,7 @@ let store = createStore(
 let unsubscribe = store.subscribe(handleChange);
 
 // load global data file into store
-store.dispatch(loadData('../data/globals.json'));
+store.dispatch(loadData('../data/jungle-adv-v01.json'));
 
 
 // store change handler

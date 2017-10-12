@@ -6,10 +6,7 @@ import { testConditions } from '../engine/conditions-logic';
 import { switchVerbs } from '../engine/standard-logic';
 
 const initialState= {
-    outputText: [
-        "#=============================#",
-        "# Welcome back to the 1980s!! #",
-        "#=============================#"],
+    outputText: [],
     inputText:'',
     parsedText: [],
     parsedVerbs:[],
